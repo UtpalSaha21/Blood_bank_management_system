@@ -1,0 +1,81 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f0f3f5;
+    margin: 0;
+    padding: 0;
+}
+
+.register-container textarea {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+}
+
+
+.register-container {
+    max-width: 450px;
+    margin: 70px auto;
+    padding: 35px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.register-container h2 {
+    color: #27ae60;
+    margin-bottom: 25px;
+}
+
+.register-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.register-container input[type="text"],
+.register-container input[type="email"],
+.register-container input[type="password"],
+.register-container input[type="number"],
+.register-container input[type="tel"],
+.register-container select {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.register-container input[type="submit"] {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.register-container input[type="submit"]:hover {
+    background-color: #2ecc71;
+}
+
+.register-container p {
+    margin-top: 15px;
+    color: #888;
+}
+
+a.button {
+    display: inline-block;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+a.button:hover {
+    background-color: #2ecc71;
+}
