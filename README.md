@@ -65,26 +65,41 @@ Password - admin123
 ## 📂 Folder Structure
 
 bloodbank/
-├── admin/
-│   ├── dashboard.php
-│   ├── manage\_requests.php
-│   ├── history.php
-│   └── blood\_stock.php
-├── donor/
-│   ├── dashboard.php
-│   └── donate\_blood.php
-├── recipient/
-│   ├── dashboard.php
-│   └── request\_blood.php
-├── includes/
-│   └── db.php
-├── Css/
-│   ├── style.css
-│   ├── admin.css
-│   └── user.css
+│
+├── index.php
 ├── login.php
 ├── register.php
-└── index.php
+├── logout.php
+│
+├── includes/
+│   └── db.php                 # Database connection file
+│
+├── admin/
+│   ├── dashboard.php          # Admin home page
+│   ├── manage_requests.php    # Approve/Reject donor/recipient requests
+│   ├── blood_stock.php        # Current blood stock table
+│   ├── donation_history.php   # History of donations
+│   ├── request_history.php    # History of requests
+│   └── history.php            # Combined history (optional)
+│
+├── donor/
+│   ├── dashboard.php          # Donor home page
+│   └── donate_blood.php       # Donor form to donate blood
+│
+├── recipient/
+│   ├── dashboard.php          # Recipient home page
+│   └── request_blood.php      # Recipient form to request blood
+│
+├── Css/
+│   ├── style.css              # Global styles (login, register)
+│   ├── admin.css              # Admin dashboard & tables
+│   └── user.css               # Donor/recipient dashboard style
+│
+├── sql/
+│   └── bloodbank.sql          # SQL file to create all tables
+│
+└── README.md                  # GitHub project description
+
 
 ## 📌 Future Enhancements
 
