@@ -2,16 +2,8 @@
 CREATE DATABASE IF NOT EXISTS bloodbank;
 USE bloodbank;
 
--- Table: admin
-CREATE TABLE admin (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(100) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    email VARCHAR(100)
-);
-
--- Table: donor
-CREATE TABLE donor (
+-- Table: users
+CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     gender ENUM('Male', 'Female', 'Other') NOT NULL,
@@ -19,56 +11,45 @@ CREATE TABLE donor (
     phone VARCHAR(20),
     address TEXT,
     blood_group VARCHAR(5),
-    email VARCHAR(100),
-    password VARCHAR(255)
-);
-
--- Table: recipient
-CREATE TABLE recipient (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    gender ENUM('Male', 'Female', 'Other') NOT NULL,
-    age INT,
-    phone VARCHAR(20),
-    address TEXT,
-    blood_group VARCHAR(5),
-    email VARCHAR(100),
-    password VARCHAR(255)
-);
-
--- Table: blood_stock
-CREATE TABLE blood_stock (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    blood_group VARCHAR(5) NOT NULL,
-    quantity INT NOT NULL DEFAULT 0
+    email VARCHAR(100) UNIQUE,
+    password VARCHAR(255),
+    user_type ENUM('donor', 'recipient') NOT NULL
 );
 
 -- Table: donations
 CREATE TABLE donations (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    donor_id INT,
+    user_id INT,
     blood_group VARCHAR(5),
     quantity INT,
     donation_date DATE DEFAULT (CURRENT_DATE),
-    FOREIGN KEY (donor_id) REFERENCES donor(id) ON DELETE SET NULL
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Table: blood_requests
 CREATE TABLE blood_requests (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    recipient_id INT,
+    user_id INT,
     blood_group VARCHAR(5),
     quantity INT,
     request_date DATE DEFAULT (CURRENT_DATE),
     status ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',
-    FOREIGN KEY (recipient_id) REFERENCES recipient(id) ON DELETE SET NULL
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- Table: history_log
-CREATE TABLE history_log (
+-- Table: blood_stock
+CREATE TABLE blood_stock (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_type ENUM('Donor', 'Recipient', 'Admin'),
+    blood_group VARCHAR(5) UNIQUE NOT NULL,
+    quantity INT NOT NULL DEFAULT 0
+);
+
+-- Table: requests
+CREATE TABLE requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
-    action VARCHAR(255),
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+    request_type ENUM('donation', 'blood') NOT NULL,
+    request_date DATE DEFAULT (CURRENT_DATE),
+    status ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
