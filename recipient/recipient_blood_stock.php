@@ -1,21 +1,22 @@
 <?php
+include ('../includes/db.php');
 session_start();
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../login.php");
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'recipient') {
+    $_SESSION['unathorize']="<p style='color:red;'>You have to login first</p>";
+    header('location:'.SITEURL.'login.php');
     exit();
 }
-include 'includes/db.php';
+
 
 // Fetch blood stock data
 $sql = "SELECT blood_group, quantity FROM blood_stock ORDER BY blood_group ASC";
-$result = $conn->query($sql);
+$res = mysqli_query($conn,$sql);
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Blood Stock</title>
-    <link rel="stylesheet" href="Css/blood_stock.css">
+    <link rel="stylesheet" href="../Css/blood_stock.css">
 </head>
 <body>
 <div class="dashboard">
@@ -25,7 +26,7 @@ $result = $conn->query($sql);
             <th>Blood Group</th>
             <th>Available Quantity (Units)</th>
         </tr>
-        <?php while ($row = $result->fetch_assoc()) { ?>
+        <?php while ($row = mysqli_fetch_assoc($res)) { ?>
         <tr>
             <td><?= $row['blood_group'] ?></td>
             <td><?= $row['quantity'] ?></td>
@@ -34,7 +35,7 @@ $result = $conn->query($sql);
     </table>
 </div>
 <div>
-    <a href="admin/dashboard.php">Back</a>
+    <a href="dashboard.php">Back</a>
 </div>
 </body>
 </html>

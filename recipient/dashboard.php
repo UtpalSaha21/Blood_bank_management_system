@@ -1,17 +1,18 @@
 <?php
+include ('../includes/db.php');
 session_start();
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'recipient') {
     header("Location: ../login.php");
     exit();
 }
-include '../includes/db.php';
-$user_id = $_SESSION['userid'];
 
-$sql = "SELECT * FROM blood_requests WHERE user_id = ? AND request_type = 'request' ORDER BY request_date DESC";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
+$user_id = $_SESSION['userid'];
+//query for getting user information from database
+$sql = "SELECT * FROM users WHERE id=$user_id";
+$res = mysqli_query($conn,$sql);
+$row = mysqli_fetch_assoc($res);
+$name = $row['name'];
+
 ?>
 
 <!DOCTYPE html>
@@ -22,8 +23,19 @@ $result = $stmt->get_result();
 </head>
 <body>
     <div class="dashboard">
-        <h2>Welcome, Recipient!</h2>
+        <h2>Welcome, <?php echo $name; ?></h2>
         <a href="request.php">🩸 Request Blood</a>
+        <a href="recipient_blood_stock.php">📦 View Blood Stock</a>
+
+        <br><br>
+        <?php
+        if(isset($_SESSION['success']))
+        {
+            echo $_SESSION['success'];
+            unset($_SESSION['success']);
+        }
+        ?>
+
         <h3>Request History</h3>
         <table>
             <tr>
@@ -32,23 +44,44 @@ $result = $stmt->get_result();
                 <th>Status</th>
                 <th>Date</th>
             </tr>
-            <?php while ($row = $result->fetch_assoc()) { ?>
-            <tr>
-                <td><?= $row['blood_group'] ?></td>
-                <td><?= $row['quantity'] ?></td>
-                <td>
-                    <?php if ($row['status'] === 'approved') { ?>
-                        <span class="approved">Approved</span>
-                    <?php } elseif ($row['status'] === 'rejected') { ?>
-                        <span class="rejected">Rejected</span>
-                    <?php } else { echo ucfirst($row['status']); } ?>
-                </td>
-                <td><?= $row['request_date'] ?></td>
-            </tr>
-            <?php } ?>
+            <?php
+            $sql2 = "SELECT * FROM blood_requests WHERE user_id = $user_id AND request_type = 'request' ORDER BY request_date DESC";
+            $res2 = mysqli_query($conn,$sql2);
+            while ($row2 = mysqli_fetch_assoc($res2)) 
+            { 
+                ?>
+                <tr>
+                    <td><?= $row2['blood_group'] ?></td>
+                    <td><?= $row2['quantity'] ?></td>
+                    <td>
+                        <?php
+                        if ($row2['status'] === 'approved') 
+                        { 
+                            ?>
+                            <span class="approved">Approved</span>
+                            <?php 
+                        } 
+                        elseif ($row2['status'] === 'rejected') 
+                        { 
+                            ?>
+                            <span class="rejected">Rejected</span>
+                            <?php 
+                        } 
+                        else 
+                        { 
+                            echo ucfirst($row2['status']); 
+                        } 
+                        ?>
+                    </td>
+                    <td><?= $row2['request_date'] ?></td>
+                </tr>
+                <?php 
+            } 
+            
+            ?>
         </table>
         <br><br>
-        <a href="../logout.php">Logout</a>
+        <a href="<?php echo SITEURL;?>logout.php">Logout</a>
     </div>
 </body>
 </html>

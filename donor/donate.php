@@ -1,25 +1,11 @@
 <?php
+include('../includes/db.php');
 session_start();
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'donor') {
     header("Location: ../login.php");
     exit();
 }
-include '../includes/db.php';
 
-if (isset($_POST['donate'])) {
-    $blood_group = $_POST['blood_group'];
-    $quantity = $_POST['quantity'];
-    $user_id = $_SESSION['userid'];
-
-    $stmt = $conn->prepare("INSERT INTO blood_requests (user_id, blood_group, quantity, request_type) VALUES (?, ?, ?, 'donate')");
-    $stmt->bind_param("isi", $user_id, $blood_group, $quantity);
-
-    if ($stmt->execute()) {
-        $msg = "✅ Donation request submitted successfully!";
-    } else {
-        $msg = "❌ Error submitting donation.";
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +17,6 @@ if (isset($_POST['donate'])) {
 <body>
 <div class="dashboard">
     <h2>Donate Blood</h2>
-    <?php if (isset($msg)) echo "<p>$msg</p>"; ?>
     <form method="POST">
         <select name="blood_group" required>
             <option disabled selected>Select Blood Group</option>
@@ -43,6 +28,38 @@ if (isset($_POST['donate'])) {
         <input type="number" name="quantity" placeholder="Quantity in units" required>
         <input type="submit" name="donate" value="Submit">
     </form>
+    <br><br>
+    <div>
+    <a href="dashboard.php">Back</a>
+    </div>
 </div>
 </body>
 </html>
+
+<?php
+    if (isset($_POST['donate'])) 
+    {
+    $blood_group = $_POST['blood_group'];
+    $quantity = $_POST['quantity'];
+    $user_id = $_SESSION['userid'];
+
+    $sql = "INSERT INTO blood_requests SET
+    user_id = $user_id,
+    blood_group = '$blood_group',
+    quantity = $quantity,
+    request_type = 'donate'
+    ";
+    $res = mysqli_query($conn,$sql);
+    if ($res == true) 
+    {
+        $_SESSION['success'] = "✅ Donation request submitted successfully!";
+        header('location:'.SITEURL.'donor/dashboard.php');
+    } 
+    else 
+    {
+        $_SESSION['success'] = "❌ Error submitting donation.";
+        header('location:'.SITEURL.'donor/dashboard.php');
+    }
+    }
+
+?>

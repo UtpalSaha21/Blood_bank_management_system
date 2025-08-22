@@ -1,4 +1,4 @@
-<?php include 'includes/db.php'; ?>
+<?php include ('includes/db.php'); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,13 +42,13 @@
 
 
 <?php
-include 'includes/db.php';
 
-if (isset($_POST['register'])) {
+if (isset($_POST['register'])) 
+    {
     // Get form data
     $name     = $_POST['name'];
     $email    = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $password = md5($_POST['password']);
     $role     = $_POST['role'];
     $age      = $_POST['age'];
     $phone    = $_POST['phone'];
@@ -56,27 +56,42 @@ if (isset($_POST['register'])) {
     $address  = $_POST['address'];
 
     // Check if email exists
-    $check = $conn->prepare("SELECT * FROM users WHERE email = ?");
-    $check->bind_param("s", $email);
-    $check->execute();
-    $result = $check->get_result();
 
-    if ($result->num_rows > 0) {
+    $sql = "SELECT * FROM users WHERE email = '$email'";
+    $res = mysqli_query($conn,$sql);
+    $count = mysqli_num_rows($res);
+
+    if ($count>0) 
+        {
         echo "<p style='color:red;'>Email already exists.</p>";
-    } else {
+        } 
+    else 
+        {
         // Insert new user
-        $stmt = $conn->prepare("INSERT INTO users (name, email, password, role, age, gender, phone, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssisss", $name, $email, $password, $role, $age, $gender, $phone, $address);
+        $sql2 = "INSERT INTO users SET
+        name = '$name',
+        email = '$email',
+        password = '$password',
+        role = '$role',
+        age = $age,
+        gender = '$gender',
+        phone = '$phone',
+        address = '$address'
+        ";
 
-        if ($stmt->execute()) {
+        $res2 = mysqli_query($conn,$sql2);
+
+        if ($res2==true) 
+            {
             echo "<p style='color:green;'>Registration successful. <a href='login.php'>Login Now</a></p>";
-        } else {
+            } 
+        else 
+            {
             echo "<p style='color:red;'>Registration failed. Please try again.</p>";
-        }
+            }
 
-        $stmt->close();
+        }
     }
-}
 ?>
 </body>
 </html>

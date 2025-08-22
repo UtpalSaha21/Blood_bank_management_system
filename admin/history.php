@@ -1,18 +1,17 @@
 <?php
+include ('../includes/db.php');
+
 session_start();
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../login.php");
+    header('location:'.SITEURL.'login.php');
     exit();
 }
-include '../includes/db.php';
+
 
 // Fetch all non-pending requests
-$sql = "SELECT br.id, u.name, u.role, br.blood_group, br.quantity, br.request_type, br.status, br.request_date
-        FROM blood_requests br
-        JOIN users u ON br.user_id = u.id
-        WHERE br.status != 'pending'
-        ORDER BY br.request_date DESC";
-$result = $conn->query($sql);
+
+$sql = "SELECT * FROM blood_requests , users WHERE blood_requests.status IN ('approved','rejected') AND users.id = blood_requests.user_id ORDER BY blood_requests.request_date DESC";
+$res = mysqli_query($conn,$sql);
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +34,7 @@ $result = $conn->query($sql);
             <th>Status</th>
             <th>Date</th>
         </tr>
-        <?php while ($row = $result->fetch_assoc()) { ?>
+        <?php while ($row = mysqli_fetch_assoc($res)) { ?>
         <tr>
             <td><?= $row['id'] ?></td>
             <td><?= htmlspecialchars($row['name']) ?></td>

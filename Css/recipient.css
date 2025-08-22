@@ -32,3 +32,13 @@ h1 {
 .actions a:hover {
     background: #5dade2;
 }
+
+a {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background: #0099cc;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
