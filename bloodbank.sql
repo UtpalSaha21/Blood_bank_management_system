@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 22, 2025 at 02:53 PM
+-- Generation Time: Mar 10, 2026 at 06:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -93,6 +93,8 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` enum('admin','donor','recipient') NOT NULL,
+  `blood_group` varchar(11) DEFAULT NULL,
+  `search` varchar(11) DEFAULT NULL,
   `age` int(11) DEFAULT NULL,
   `gender` enum('Male','Female','Other') DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
@@ -104,12 +106,14 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `age`, `gender`, `phone`, `address`, `created_at`) VALUES
-(1, 'Admin User', 'admin@bbms.com', '21232f297a57a5a743894a0e4a801fc3', 'admin', NULL, NULL, NULL, NULL, '2025-07-13 18:24:32'),
-(9, 'donor', 'donor@gmail.com', '3d939a14c04ae16c98e3bddf6e8e4dd7', 'donor', 23, 'Male', '01721088677', 'adaad', '2025-08-17 18:29:48'),
-(10, 'donor 2', 'donor2@gmail.com', '3d939a14c04ae16c98e3bddf6e8e4dd7', 'donor', 23, 'Male', '+880 - 1414 - 681341', 'fasfa', '2025-08-17 18:31:31'),
-(11, 'Reciepent', 'recipient@gmail.com', 'd6e41fc5d1bcfead1db3b6dc05774971', 'recipient', 23, 'Male', '+880 - 1414 - 681341', 'sfsaf', '2025-08-17 18:36:46'),
-(12, 'Reciepent 2', 'recipient2@gmail.com', 'd6e41fc5d1bcfead1db3b6dc05774971', 'recipient', 23, 'Male', '1456 986236', 'gdsgsg', '2025-08-17 18:53:08');
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `blood_group`, `search`, `age`, `gender`, `phone`, `address`, `created_at`) VALUES
+(1, 'Admin User', 'admin@bbms.com', '21232f297a57a5a743894a0e4a801fc3', 'admin', '', NULL, NULL, NULL, NULL, NULL, '2025-07-13 18:24:32'),
+(9, 'donor', 'donor@gmail.com', '3d939a14c04ae16c98e3bddf6e8e4dd7', 'donor', '', NULL, 23, 'Male', '01721088677', 'adaad', '2025-08-17 18:29:48'),
+(10, 'donor 2', 'donor2@gmail.com', '3d939a14c04ae16c98e3bddf6e8e4dd7', 'donor', '', NULL, 23, 'Male', '+880 - 1414 - 681341', 'fasfa', '2025-08-17 18:31:31'),
+(11, 'Reciepent', 'recipient@gmail.com', 'd6e41fc5d1bcfead1db3b6dc05774971', 'recipient', '', NULL, 23, 'Male', '+880 - 1414 - 681341', 'sfsaf', '2025-08-17 18:36:46'),
+(12, 'Reciepent 2', 'recipient2@gmail.com', 'd6e41fc5d1bcfead1db3b6dc05774971', 'recipient', '', NULL, 23, 'Male', '1456 986236', 'gdsgsg', '2025-08-17 18:53:08'),
+(13, 'Prianka', 'prianka@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'donor', 'A+', 'yes', 25, 'Male', '01241469135', 'nirala', '2026-03-10 17:23:45'),
+(15, 'test', 'test456@gmail.com', '25d55ad283aa400af464c76d713c07ad', 'recipient', 'NULL', 'NULL', 32, 'Male', '01812345678', 'khulna', '2026-03-10 17:28:18');
 
 --
 -- Indexes for dumped tables
@@ -155,7 +159,7 @@ ALTER TABLE `blood_stock`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
