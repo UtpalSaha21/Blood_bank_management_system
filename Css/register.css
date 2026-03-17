@@ -25,7 +25,7 @@ body {
 }
 
 .register-container h2 {
-    color: #27ae60;
+    color: #c0392b;
     margin-bottom: 25px;
 }
 
@@ -39,7 +39,6 @@ body {
 .register-container input[type="email"],
 .register-container input[type="password"],
 .register-container input[type="number"],
-.register-container input[type="tel"],
 .register-container select {
     padding: 10px;
     margin-bottom: 15px;
@@ -48,7 +47,7 @@ body {
 }
 
 .register-container input[type="submit"] {
-    background-color: #27ae60;
+    background-color: #c0392b;
     color: white;
     border: none;
     padding: 10px;
@@ -58,24 +57,15 @@ body {
 }
 
 .register-container input[type="submit"]:hover {
-    background-color: #2ecc71;
+    background-color: #e74c3c;
 }
 
-.register-container p {
-    margin-top: 15px;
-    color: #888;
+#bloodGroupField select{
+    width: 100%;
 }
 
-a.button {
-    display: inline-block;
-    background-color: #27ae60;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
+.btn{
     text-decoration: none;
-}
-
-a.button:hover {
-    background-color: #2ecc71;
+    color: black;
+    font-weight: bold;
 }

@@ -48,7 +48,8 @@ body {
     background-color: #e74c3c;
 }
 
-.login-container p {
-    margin-top: 15px;
-    color: #888;
+.btn{
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
 }

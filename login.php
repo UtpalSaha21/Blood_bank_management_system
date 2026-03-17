@@ -13,16 +13,15 @@ include ('includes/db.php');
     <div class="login-container">
         <h2>Login</h2>
     <form method="POST">
-        Email: <input type="email" name="email" >
-        Password: <input type="password" name="password" >
+        <input type="email" name="email" placeholder="Email">
+        <input type="password" name="password" placeholder="Password">
         <br>
         <input type="submit" name="login" value="Login">
         <br>
-        <tr>
-            <td>OR</td>
-        </tr>
-        <br><br>
-        <input type="submit" name="register" value="Register">
+        <p>
+            Don't have an account yet?
+            <a href="register.php" class="btn">Sign Up</a>
+        </p>
     </form>
     </div>
 
